@@ -1,15 +1,15 @@
 """
-Flask web application for CSV conversion.
+Flask web application for CSV/XLSX conversion.
 """
 
 import io
 from flask import Flask, render_template, request, send_file, flash, redirect, url_for
-from converter import transform_csv
+from converter import transform_file
 
 app = Flask(__name__)
 app.secret_key = 'intesa-to-actual-secret-key'
 
-ALLOWED_EXTENSIONS = {'csv'}
+ALLOWED_EXTENSIONS = {'csv', 'xlsx'}
 
 
 def allowed_file(filename: str) -> bool:
@@ -25,7 +25,7 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
-    """Handle CSV file upload and return the transformed file."""
+    """Handle CSV/XLSX file upload and return the transformed file."""
     # Check if file was uploaded
     if 'file' not in request.files:
         flash('No file uploaded', 'error')
@@ -40,12 +40,20 @@ def upload_file():
     
     # Validate file extension
     if not allowed_file(file.filename):
-        flash('Invalid file type. Please upload a CSV file.', 'error')
+        flash('Invalid file type. Please upload a CSV or XLSX file.', 'error')
         return redirect(url_for('index'))
     
     try:
-        # Transform the CSV
-        result = transform_csv(file)
+        # Get file extension
+        file_ext = file.filename.rsplit('.', 1)[1].lower()
+        
+        # Transform the file
+        if file_ext == 'xlsx':
+            # For XLSX, we need to pass the binary stream
+            result = transform_file(file, filename=file.filename)
+        else:
+            # For CSV, read as text
+            result = transform_file(file, filename=file.filename)
         
         # Create output filename
         original_name = file.filename.rsplit('.', 1)[0]

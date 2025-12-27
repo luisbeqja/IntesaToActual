@@ -1,10 +1,11 @@
 # Intesa to Actual
 
-A simple tool to convert Intesa SanPaolo bank CSV exports into a format compatible with [Actual Budget](https://actualbudget.org).
+A simple tool to convert Intesa SanPaolo bank CSV/XLSX exports into a format compatible with [Actual Budget](https://actualbudget.org).
 
 ## Features
 
 - Web UI with drag-and-drop file upload
+- Supports both CSV and XLSX file formats
 - Automatic column mapping from Italian to English
 - Instant download of converted file
 - CLI support for batch processing
@@ -33,7 +34,7 @@ Start the web server:
 python app.py
 ```
 
-Open your browser to [http://localhost:5000](http://localhost:5000) and upload your CSV file.
+Open your browser to [http://localhost:5000](http://localhost:5000) and upload your CSV or XLSX file.
 
 ### Command Line
 
@@ -41,8 +42,8 @@ Open your browser to [http://localhost:5000](http://localhost:5000) and upload y
 # Output to stdout
 python converter.py input.csv
 
-# Save to file
-python converter.py input.csv output.csv
+# Save to file (works with both CSV and XLSX)
+python converter.py input.xlsx output.csv
 ```
 
 ## Column Mapping

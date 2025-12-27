@@ -334,10 +334,10 @@
             <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
                 <div class="upload-zone" id="uploadZone">
                     <div class="upload-icon">📁</div>
-                    <div class="upload-text">Drop your CSV file here</div>
+                    <div class="upload-text">Drop your CSV or XLSX file here</div>
                     <div class="upload-hint">or <span>click to browse</span></div>
                 </div>
-                <input type="file" name="file" id="fileInput" class="file-input" accept=".csv">
+                <input type="file" name="file" id="fileInput" class="file-input" accept=".csv,.xlsx">
 
                 <div class="selected-file" id="selectedFile">
                     <span class="file-icon">📄</span>
@@ -408,7 +408,7 @@
             uploadZone.classList.remove('dragover');
             
             const files = e.dataTransfer.files;
-            if (files.length > 0 && files[0].name.endsWith('.csv')) {
+            if (files.length > 0 && (files[0].name.endsWith('.csv') || files[0].name.endsWith('.xlsx'))) {
                 fileInput.files = files;
                 showSelectedFile(files[0]);
             }
